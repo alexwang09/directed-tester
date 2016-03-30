@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="D:/Andriod/andriod-sdk/tools/lib/chimpchat.jar"/>
+	<classpathentry kind="lib" path="D:/Andriod/andriod-sdk/tools/lib/ddmlib.jar"/>
+	<classpathentry kind="lib" path="D:/Andriod/andriod-sdk/tools/lib/guava-17.0.jar"/>
+	<classpathentry kind="lib" path="D:/Andriod/andriod-sdk/tools/lib/monkeyrunner.jar"/>
+	<classpathentry kind="lib" path="D:/Andriod/andriod-sdk/tools/lib/sdklib.jar"/>
+	<classpathentry kind="output" path=""/>
+</classpath>
