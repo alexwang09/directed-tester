@@ -1,8 +1,7 @@
 package com.wxy.pathRecorder;
 
-
 public class ClickViewNode {
-	
+
 	private String type;
 	private double myAbsoluteLeft;
 	private double myAbsoluteTop;
@@ -10,15 +9,14 @@ public class ClickViewNode {
 	private double myHeight;
 	private double myXCenter;
 	private double myYCenter;
-	private String id;	
-	
-	 
+	private String id;
+
 	public double getMyXCenter() {
 		return myXCenter;
 	}
 
 	public void setMyXCenter() {
-		this.myXCenter = this.myAbsoluteLeft+this.myWidth/2;
+		this.myXCenter = this.myAbsoluteLeft + this.myWidth / 2;
 	}
 
 	public double getMyYCenter() {
@@ -26,7 +24,7 @@ public class ClickViewNode {
 	}
 
 	public void setMyYCenter() {
-		this.myYCenter = this.myAbsoluteTop+this.myHeight/2;
+		this.myYCenter = this.myAbsoluteTop + this.myHeight / 2;
 	}
 
 	public String getType() {
@@ -61,18 +59,16 @@ public class ClickViewNode {
 		this.id = id;
 	}
 
+	public ClickViewNode(ViewNode node) {
+		this.type = node.getType();
+		this.myWidth = node.getMyWidth();
+		this.myHeight = node.getMyHeight();
+		this.id = node.getId();
+	}
 
-      
-      public  ClickViewNode(ViewNode node){
-    	  this.type=node.getType();
-    	  this.myWidth=node.getMyWidth();
-    	  this.myHeight=node.getMyHeight();
-    	  this.id=node.getId();
-      }
-      
-      public  ClickViewNode(){
-    	  
-      }
+	public ClickViewNode() {
+
+	}
 
 	public double getMyAbsoluteLeft() {
 		return myAbsoluteLeft;
@@ -89,6 +85,5 @@ public class ClickViewNode {
 	public void setMyAbsoluteTop(double myAbsoluteTop) {
 		this.myAbsoluteTop = myAbsoluteTop;
 	}
-
 
 }

@@ -4,17 +4,17 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ViewNode {
-     
+
 	private int layer;
 	private String type;
 	private double myWidth;
-	private double myHeight;	
+	private double myHeight;
 	private double myScrollX;
 	private double myScrollY;
 	private double myLeft;
 	private double myTop;
 	private String id;
-	
+
 	public int getLayer() {
 		return layer;
 	}
@@ -87,85 +87,82 @@ public class ViewNode {
 		this.id = id;
 	}
 
-	
-     
-	public  ViewNode(String line,boolean a){
-    	   char[] ch=line.toCharArray();
-	        int k=0;
-	       while(ch[k]==' '){
-	        	k++;
-	        }
-	       this.layer=k;
-	          
-	       String sub=line.substring(0,line.indexOf("@"));
-	       int typeStart=sub.lastIndexOf(".")+1;
-	       this. type=sub.substring(typeStart);
-	      
-	      String idString=line.substring(line.indexOf("@")+1,line.indexOf("@")+9);
-	      this.id=idString;
-	   /*   int xStart=line.indexOf("getX()=")+9;
-	      int xEnd=xStart;
-	      while(ch[xEnd]!=' '){
-	    	  xEnd++;
-	      }
-	      this. myX=Double.parseDouble(line.substring(xStart, xEnd));
-	      
-	      
-	      int yStart=line.indexOf("getY()=")+9;
-	      int yEnd=yStart;
-	      while(ch[yEnd]!=' '){
-	    	  yEnd++;
-	      }
-	      this. myY=Double.parseDouble(line.substring(yStart, yEnd));
-	      */
+	public ViewNode(String line, boolean a) {
+		char[] ch = line.toCharArray();
+		int k = 0;
+		while (ch[k] == ' ') {
+			k++;
+		}
+		this.layer = k;
 
-	      int scrollXStart=line.indexOf("mScrollX=")+11;
-	      int scrollXEnd=scrollXStart;
-	      while(ch[scrollXEnd]!=' '){
-	    	  scrollXEnd++;
-	      }
-	     
-	      this. myScrollX=Double.parseDouble(line.substring(scrollXStart, scrollXEnd));
-	      
-	      int scrollYStart=line.indexOf("mScrollY=")+11;
-	      int scrollYEnd=scrollYStart;
-	      while(ch[scrollYEnd]!=' '){
-	    	  scrollYEnd++;
-	      }
-	      this. myScrollY=Double.parseDouble(line.substring(scrollYStart, scrollYEnd));
-	      
-	      int myLeftStart=line.indexOf("mLeft=")+8;
-	      int myLeftEnd=myLeftStart;
-	      while(ch[myLeftEnd]!=' '){
-	    	  myLeftEnd++;
-	      }
-	      this. myLeft=Double.parseDouble(line.substring(myLeftStart, myLeftEnd));
-	      
-	      int mTopStart=line.indexOf("mTop=")+7;
-	      int mTopEnd=mTopStart;
-	      while(ch[mTopEnd]!=' '){
-	    	  mTopEnd++;
-	      }
-	      this. myTop=Double.parseDouble(line.substring(mTopStart, mTopEnd));
-	      
-	      if(a){
-	      int widthStart=line.indexOf("mMeasuredWidth=")+17;
-	      int widthEnd=widthStart;
-	      while(ch[widthEnd]!=' '){
-	    	  widthEnd++;
-	      }
-	      this. myWidth=Double.parseDouble(line.substring(widthStart,widthEnd));
-	      
-	      
-	      int heightStart=line.indexOf("mMeasuredHeight=")+18;
-	      int heightEnd=heightStart;
-	      while(ch[heightEnd]!=' '){
-	    	  heightEnd++;
-	      }
-	      this. myHeight=Double.parseDouble(line.substring(heightStart, heightEnd));
-	     
-	      }
-       }
-	
-	
+		String sub = line.substring(0, line.indexOf("@"));
+		int typeStart = sub.lastIndexOf(".") + 1;
+		this.type = sub.substring(typeStart);
+
+		String idString = line.substring(line.indexOf("@") + 1,
+				line.indexOf("@") + 9);
+		this.id = idString;
+		/*
+		 * int xStart=line.indexOf("getX()=")+9; int xEnd=xStart;
+		 * while(ch[xEnd]!=' '){ xEnd++; } this.
+		 * myX=Double.parseDouble(line.substring(xStart, xEnd));
+		 * 
+		 * 
+		 * int yStart=line.indexOf("getY()=")+9; int yEnd=yStart;
+		 * while(ch[yEnd]!=' '){ yEnd++; } this.
+		 * myY=Double.parseDouble(line.substring(yStart, yEnd));
+		 */
+
+		int scrollXStart = line.indexOf("mScrollX=") + 11;
+		int scrollXEnd = scrollXStart;
+		while (ch[scrollXEnd] != ' ') {
+			scrollXEnd++;
+		}
+
+		this.myScrollX = Double.parseDouble(line.substring(scrollXStart,
+				scrollXEnd));
+
+		int scrollYStart = line.indexOf("mScrollY=") + 11;
+		int scrollYEnd = scrollYStart;
+		while (ch[scrollYEnd] != ' ') {
+			scrollYEnd++;
+		}
+		this.myScrollY = Double.parseDouble(line.substring(scrollYStart,
+				scrollYEnd));
+
+		int myLeftStart = line.indexOf("mLeft=") + 8;
+		int myLeftEnd = myLeftStart;
+		while (ch[myLeftEnd] != ' ') {
+			myLeftEnd++;
+		}
+		this.myLeft = Double
+				.parseDouble(line.substring(myLeftStart, myLeftEnd));
+
+		int mTopStart = line.indexOf("mTop=") + 7;
+		int mTopEnd = mTopStart;
+		while (ch[mTopEnd] != ' ') {
+			mTopEnd++;
+		}
+		this.myTop = Double.parseDouble(line.substring(mTopStart, mTopEnd));
+
+		if (a) {
+			int widthStart = line.indexOf("mMeasuredWidth=") + 17;
+			int widthEnd = widthStart;
+			while (ch[widthEnd] != ' ') {
+				widthEnd++;
+			}
+			this.myWidth = Double.parseDouble(line.substring(widthStart,
+					widthEnd));
+
+			int heightStart = line.indexOf("mMeasuredHeight=") + 18;
+			int heightEnd = heightStart;
+			while (ch[heightEnd] != ' ') {
+				heightEnd++;
+			}
+			this.myHeight = Double.parseDouble(line.substring(heightStart,
+					heightEnd));
+
+		}
+	}
+
 }
