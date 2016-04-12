@@ -11,7 +11,7 @@ public class AdbConnect {
 	private static AdbBackend adb;
 
 	public static AdbChimpDevice AdbConnect() {
-		String deviceID = "192.168.56.101:5555";
+		String deviceID = "169.254.5.101:5555";
 		// TODO Auto-generated method stub
 		if (adb == null) {
 			adb = new AdbBackend();

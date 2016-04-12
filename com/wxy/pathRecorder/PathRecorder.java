@@ -14,7 +14,7 @@ public class PathRecorder {
 	public static boolean preConfig() {
 		boolean flag = false;
 		// .......
-		String deviceId = "192.168.56.101:5555";
+		String deviceId = "169.254.5.101:5555";
 		String port = "4939";
 		String cmd = "adb -s " + deviceId + " forward tcp:" + port
 				+ " tcp:4939";

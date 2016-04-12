@@ -11,7 +11,7 @@ public class Main {
 		if (flag == true) {
 			AdbChimpDevice device = AdbConnect.AdbConnect();
 			// System.out.print("hi");
-			GetPathsTree.getPathsTree("C:\\Users\\yym\\Documents\\1", device);
+			GetPathsTree.getPathsTree("C:\\Users\\yym\\Documents\\5", device);
 		}
 	}
 
