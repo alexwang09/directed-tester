@@ -1,7 +1,6 @@
-package com.wxy.pathRecorder;
+package com.wxy.directedtester;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,26 +8,26 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import org.python.antlr.PythonParser.return_stmt_return;
-
 import com.android.chimpchat.adb.AdbChimpDevice;
 
 public class GetPathsTree {
+
+	private static ArrayList<ClickViewNode> curTabNodeList;
 
 	public static void getPathsTree(String filePath, AdbChimpDevice device)
 			throws IOException {
 
 		String id = null;
+		
+		String mainAct = PathRecorder.getMainAct();
+		int num = mainAct.indexOf("/");
+		String packageName = mainAct.substring(0, num);
+		System.out.println(packageName);
 		ArrayList<String[]> pathsArrayList = new ArrayList<>();
 		// 获取seed Paths
-		pathsArrayList = getSeedPaths(filePath, device);
+		pathsArrayList = getSeedPaths(filePath, device,mainAct,packageName);
+		boolean flag = false;
 
-		// paths的预处理，合并相同项
-		// tab切换
-
-		// for(int i=0;i<pathsArrayList.size();i++){
-		// System.out.println(pathsArrayList.get(i)[0]+" "+pathsArrayList.get(i)[1]);
-		// }
 		// 获取全路径树
 		ClickViewNode rootNode = new ClickViewNode();
 		TreeNode root = new TreeNode(rootNode);
@@ -40,7 +39,17 @@ public class GetPathsTree {
 		categories.add("android.intent.category.LAUNCHER");
 
 		// System.out.println(pathsArrayList.size());
+		
 		for (int i = 0; i < pathsArrayList.size(); i++) {
+			if (i > 0) {
+				// 重新进入应用
+				device.startActivity(null,action,null,null,categories,new HashMap<String, Object>(),mainAct,0);
+				try {
+					Thread.sleep(4000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
 			ArrayList<TreeNode> currentNodeList = new ArrayList<TreeNode>();
 			currentNodeList.add(root);
 			int pathsNum = 0;
@@ -82,13 +91,56 @@ public class GetPathsTree {
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
+							//错误处理
+							/*boolean errFlag = PathRecorder.isError();
+							System.out.println(errFlag);
+							if(!errFlag){
+								device.touch(495,566,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+					        	try {
+									Thread.sleep(3000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								n=0;
+							}*/
 							id = PathRecorder.getCurrentAcId();
 						}
 					}
 					String type = pathsArrayList.get(i)[j];
 					ArrayList<ClickViewNode> clickNodeList = new ArrayList<ClickViewNode>();
+					ArrayList<ClickViewNode> tabNodeList = new ArrayList<ClickViewNode>();
 					// 获取当前页面的可点击控件
-					clickNodeList = PathRecorder.getView();
+					if (currentNode.getNode().isTab() == true) {
+						if (flag == false) {
+						
+							clickNodeList = PathRecorder.getView();
+							 System.out.println("first Tab");
+							curTabNodeList = clickNodeList;
+							flag = true;
+						} else {
+						
+							tabNodeList = PathRecorder.getView();
+							System.out.println("non-first Tab");
+							for (int p = 0; p < tabNodeList.size(); p++) {
+								for (int q = 0; q < curTabNodeList.size(); q++) {
+									if (tabNodeList
+											.get(p)
+											.getId()
+											.equals(curTabNodeList.get(q)
+													.getId())) {
+										// System.out.println("remove"+" "+tabNodeList.get(p).getId());
+										tabNodeList.remove(p);
+										p--;
+										break;
+									}
+								}
+							}
+							clickNodeList = tabNodeList;
+							curTabNodeList = PathRecorder.getView();
+						}
+					} else {
+						clickNodeList = PathRecorder.getView();
+					}
 					// 找到type类型的控件构建路径树
 					for (int k = 0; k < clickNodeList.size(); k++) {
 						ClickViewNode clickNode = clickNodeList.get(k);
@@ -103,7 +155,8 @@ public class GetPathsTree {
 					}
 					id = PathRecorder.getCurrentAcId();
 					int nodePathSize = 0;
-					System.out.println(j);
+					// System.out.println(j);
+					// 在遍历倒数第二层节点的同时，依次遍历其子节点（最后一层节点）
 					if (j == pathsNum - 1) {
 						for (int k = 0; k < currentNode.getChildren().size(); k++) {
 							int time = 0;
@@ -127,6 +180,23 @@ public class GetPathsTree {
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
+							/*boolean errFlag = PathRecorder.isError();
+							System.out.println(errFlag);
+							if(!errFlag){
+								try {
+									Thread.sleep(4000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								device.touch(496,566,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+					        	try {
+									Thread.sleep(5000);
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								}
+								k=0;
+								continue;
+							}*/
 							id = PathRecorder.getCurrentAcId();
 							time = 0;
 
@@ -178,11 +248,61 @@ public class GetPathsTree {
 				}
 				currentNodeList = nextNodeList;
 			}
+			// 退出应用
+			System.out.println("退出应用");
+			String cmd = "adb shell am force-stop " + packageName;
+			CMDUtils.runCMD(cmd, null);
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			//清楚数据和缓存
+			  device.startActivity(null, action, null, null, categories,
+			     		new HashMap<String, Object>(),"com.android.settings/com.android.settings.Settings", 0);
+        	try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+         
+        	device.touch(121,966,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+        	try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	device.touch(136,409,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+        	try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	device.touch(435,586,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+        	try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	device.touch(489,618,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+        	try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	
+        	cmd = "adb shell am force-stop " + "com.android.settings";
+			CMDUtils.runCMD(cmd, null);
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-		if (device != null) {
-			device.dispose();
-			device = null;
-		}
+	//	if (device != null) {
+	//		device.dispose();
+	//		device = null;
+	//	}
 		// 遍历节点树
 		System.out.println(0 + "  root");
 		List<TreeNode> treeNodes = new ArrayList<TreeNode>();
@@ -191,9 +311,8 @@ public class GetPathsTree {
 		// System.out.println(line);
 	}
 
-	@SuppressWarnings("null")
 	public static ArrayList<String[]> getSeedPaths(String filePath,
-			AdbChimpDevice device) throws NumberFormatException, IOException {
+			AdbChimpDevice device, String mainAct, String packageName) throws NumberFormatException, IOException {
 		FileReader fr = new FileReader(filePath);
 		BufferedReader br = new BufferedReader(fr);
 		ArrayList<String[]> pathsArrayList = new ArrayList<>();
@@ -202,6 +321,13 @@ public class GetPathsTree {
 		Collection<String> categories = new ArrayList<String>();
 		categories.add("android.intent.category.LAUNCHER");
 
+		device.startActivity(null,action,null,null,categories,new HashMap<String, Object>(),mainAct,0);
+		try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		String line = "";
 		String id = null;
 		String[] pathTypeStrings = new String[100];
@@ -279,7 +405,7 @@ public class GetPathsTree {
 					break;
 
 				case "WAIT":
-					int time2 = 0;
+					/*int time2 = 0;
 					for (int i = 0; i < typeNum; i++) {
 						id = PathRecorder.getCurrentAcId();
 						device.press(
@@ -300,15 +426,34 @@ public class GetPathsTree {
 							e.printStackTrace();
 						}
 						line = br.readLine();
+					}*/
+					String cmd = "adb shell am force-stop " + packageName;
+					System.out.println("退出app");
+					CMDUtils.runCMD(cmd, null);
+					try {
+						Thread.sleep(4000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
-					typeNum = 0;
+					// 重新进入应用
+					device.startActivity(null,action,null,null,categories,new HashMap<String, Object>(),mainAct,0);
+					try {
+						Thread.sleep(4000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+
 					pathsArrayList.add(pathTypeStrings);
 					pathTypeStrings = new String[100];
+					typeNum = 0;
 					break;
 				}
 			}
 		}
 		br.close();
+		System.out.println(pathsArrayList.size());
+		System.out.println(pathsArrayList.get(0)[0]+" "+pathsArrayList.get(0)[1]);
+		System.out.println(pathsArrayList.get(1)[0]+" "+pathsArrayList.get(1)[1]);
 		return pathsArrayList;
 	}
 }

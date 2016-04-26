@@ -1,4 +1,4 @@
-package com.wxy.pathRecorder;
+package com.wxy.directedtester;
 
 public class ClickViewNode {
 
@@ -10,6 +10,15 @@ public class ClickViewNode {
 	private double myXCenter;
 	private double myYCenter;
 	private String id;
+	private boolean Tab = false;
+
+	public boolean isTab() {
+		return Tab;
+	}
+
+	public void setTab(boolean tab) {
+		Tab = tab;
+	}
 
 	public double getMyXCenter() {
 		return myXCenter;

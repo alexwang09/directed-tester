@@ -1,4 +1,4 @@
-package com.wxy.pathRecorder;
+package com.wxy.directedtester;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

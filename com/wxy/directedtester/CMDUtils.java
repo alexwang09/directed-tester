@@ -1,4 +1,4 @@
-package com.wxy.pathRecorder;
+package com.wxy.directedtester;
 
 import java.io.BufferedReader;
 import java.io.IOException;
