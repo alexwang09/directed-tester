@@ -1,4 +1,4 @@
-package com.wxy.directedtester;
+package com.wxy.entities;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

@@ -1,4 +1,4 @@
-package com.wxy.directedtester;
+package com.wxy.entities;
 
 import java.util.ArrayList;
 import java.util.List;

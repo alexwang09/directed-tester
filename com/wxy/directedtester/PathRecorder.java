@@ -11,6 +11,10 @@ import java.util.ArrayList;
 
 import org.omg.CORBA.PUBLIC_MEMBER;
 
+import com.wxy.entities.ClickViewNode;
+import com.wxy.entities.Entities;
+import com.wxy.entities.ViewNode;
+
 public class PathRecorder {
 	public static boolean preConfig() {
 		boolean flag = false;

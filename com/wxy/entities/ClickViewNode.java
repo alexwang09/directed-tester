@@ -1,4 +1,4 @@
-package com.wxy.directedtester;
+package com.wxy.entities;
 
 public class ClickViewNode {
 

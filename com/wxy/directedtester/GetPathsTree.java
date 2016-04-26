@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.android.chimpchat.adb.AdbChimpDevice;
+import com.wxy.entities.ClickViewNode;
+import com.wxy.entities.TreeNode;
 
 public class GetPathsTree {
 
