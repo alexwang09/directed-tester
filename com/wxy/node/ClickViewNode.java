@@ -1,4 +1,4 @@
-package com.wxy.entities;
+package com.wxy.node;
 
 public class ClickViewNode {
 

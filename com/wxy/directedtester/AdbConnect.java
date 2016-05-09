@@ -2,6 +2,7 @@ package com.wxy.directedtester;
 
 import com.android.chimpchat.adb.AdbBackend;
 import com.android.chimpchat.adb.AdbChimpDevice;
+import com.share.util.ShareUtil;
 
 
 public class AdbConnect {
@@ -25,7 +26,7 @@ public class AdbConnect {
 	}
 
 	public AdbConnect() {
-		String deviceID = "169.254.245.101:5555";
+		String deviceID = ShareUtil.deviceId;
 		// TODO Auto-generated method stub
 		if (this.adb == null) {
 			this.adb = new AdbBackend();

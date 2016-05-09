@@ -9,8 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.android.chimpchat.adb.AdbChimpDevice;
-import com.wxy.entities.ClickViewNode;
-import com.wxy.entities.TreeNode;
+import com.share.util.ShareUtil;
+import com.wxy.node.ClickViewNode;
+import com.wxy.node.TreeNode;
 
 public class GetPathsTree {
 
@@ -274,7 +275,7 @@ public class GetPathsTree {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-        	device.touch(136,409,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
+        	device.touch(ShareUtil.touchX,ShareUtil.touchY,com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
         	try {
 				Thread.sleep(3000);
 			} catch (InterruptedException e) {

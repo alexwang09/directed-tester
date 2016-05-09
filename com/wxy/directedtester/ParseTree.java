@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.kenai.jffi.Array;
-import com.wxy.entities.TreeNode;
+import com.wxy.node.TreeNode;
 
 public class ParseTree {
 

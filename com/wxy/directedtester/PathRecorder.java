@@ -9,17 +9,15 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import com.wxy.entities.ClickViewNode;
-import com.wxy.entities.Entities;
-import com.wxy.entities.ViewNode;
+import com.wxy.node.ClickViewNode;
+import com.share.util.ShareUtil;
+import com.wxy.node.ViewNode;
 
 public class PathRecorder {
 	public static boolean preConfig() {
 		boolean flag = false;
 		// .......
-		String deviceId = "169.254.245.101:5555";
+		String deviceId = ShareUtil.deviceId;
 		String port = "4939";
 		String cmd = "adb -s " + deviceId + " forward tcp:" + port
 				+ " tcp:4939";
@@ -284,15 +282,13 @@ public class PathRecorder {
 			}
 		}
 		
-		Entities sceenSizeBean = new Entities();
-		
 		//除去与tab栏冲突的和超出屏幕范围的view
 	
 		for(i=0;i<clickNodeList.size();i++){
 			double  myXCenter = clickNodeList.get(i).getMyXCenter();
 			double myYCenter=clickNodeList.get(i).getMyYCenter();
 			
-			if(myXCenter>=sceenSizeBean.getSceenXSize() || myXCenter<=0 || myYCenter<=0 || myYCenter>=sceenSizeBean.getSreenYSize()){
+			if(myXCenter>=ShareUtil.sceenXSize || myXCenter<=0 || myYCenter<=0 || myYCenter>=ShareUtil.sreenYSize){
 				clickNodeList.remove(i);
 				i--;
 				continue;

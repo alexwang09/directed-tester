@@ -1,4 +1,4 @@
-package com.wxy.entities;
+package com.wxy.node;
 
 import java.util.ArrayList;
 import java.util.List;
