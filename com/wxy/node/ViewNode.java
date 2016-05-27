@@ -151,17 +151,19 @@ public class ViewNode {
 			while (ch[widthEnd] != ' ') {
 				widthEnd++;
 			}
-			this.myWidth = Double.parseDouble(line.substring(widthStart,
+			if(!line.substring(widthStart,widthEnd).contains(",")){
+				this.myWidth = Double.parseDouble(line.substring(widthStart,
 					widthEnd));
-
+			}
 			int heightStart = line.indexOf("mMeasuredHeight=") + 18;
 			int heightEnd = heightStart;
 			while (ch[heightEnd] != ' ') {
 				heightEnd++;
 			}
-			this.myHeight = Double.parseDouble(line.substring(heightStart,
-					heightEnd));
-
+			if(!line.substring(heightStart,heightEnd).contains(",")){
+				this.myHeight = Double.parseDouble(line.substring(heightStart,
+						heightEnd));
+			}
 		}
 	}
 

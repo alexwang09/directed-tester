@@ -16,7 +16,7 @@ import com.wxy.node.ViewNode;
 public class PathRecorder {
 	public static boolean preConfig() {
 		boolean flag = false;
-		// .......
+		// 打开view server
 		String deviceId = ShareUtil.deviceId;
 		String port = "4939";
 		String cmd = "adb -s " + deviceId + " forward tcp:" + port
@@ -206,14 +206,16 @@ public class PathRecorder {
 				if ("DONE.".equalsIgnoreCase(line)) { //$NON-NLS-1$
 					break;
 				}
-				
-				String sub = line.substring(0, line.indexOf("@"));
-				int typeStart = sub.lastIndexOf(".") + 1;
-				String type = sub.substring(typeStart);
-				
+				int sub = line.indexOf("@");
+				String type = "";
+				if(sub>=0){
+					String subString = line.substring(0, line.indexOf("@"));
+					int typeStart = subString.lastIndexOf(".") + 1;
+					type = subString.substring(typeStart);
+				}
 				index1 = line.indexOf("isClickable()=");
 				c1 = line.charAt(index1 + 14);
-				if (c1 == '4'||type.equals("TabWidget")) {
+				if (c1 == '4'||type.contains("TabWidget")||(type.contains("Nav")&&type.contains("Bar"))) {
 					// index2=line.indexOf("@");
 					// idArray.add(line.substring(index2+1,index2+9));
 					ViewNode node = new ViewNode(line, true);
@@ -273,7 +275,8 @@ public class PathRecorder {
         //过滤view
 		double tabAbsoluteLeft = -1,tabAbsoluteTop = -1,tabWidth = -1,tabHeight = -1;
 		for(i=0;i<clickNodeList.size();i++){
-			if(clickNodeList.get(i).getType().equals("TabWidget")){
+			String type = clickNodeList.get(i).getType();
+			if(type.contains("TabWidget")||(type.contains("Nav")&&type.contains("Bar"))){
 				tabAbsoluteLeft = clickNodeList.get(i).getMyAbsoluteLeft();
 				tabAbsoluteTop=clickNodeList.get(i).getMyAbsoluteTop();
 				tabWidth=clickNodeList.get(i).getMyWidth();

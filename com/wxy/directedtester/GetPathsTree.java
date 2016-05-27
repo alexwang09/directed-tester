@@ -357,7 +357,7 @@ public class GetPathsTree {
 					id = PathRecorder.getCurrentAcId();
 					clickNodeList = PathRecorder.getView();
 					// 匹配控件，得到控件类型
-					// System.out.println(clickNodeList.size());
+					 System.out.println(clickNodeList.size());
 					int num = -1;
 					for (int i = 0; i < clickNodeList.size(); i++) {
 						if (touchX >= clickNodeList.get(i).getMyAbsoluteLeft()
@@ -408,30 +408,16 @@ public class GetPathsTree {
 					break;
 
 				case "WAIT":
-					/*int time2 = 0;
-					for (int i = 0; i < typeNum; i++) {
-						id = PathRecorder.getCurrentAcId();
-						device.press(
-								"KEYCODE_BACK",
-								com.android.chimpchat.core.TouchPressType.DOWN_AND_UP);
-						while (id.equals(PathRecorder.getCurrentAcId())
-								&& time2 < 4) {
-							try {
-								Thread.sleep(1000);
-							} catch (InterruptedException e) {
-								e.printStackTrace();
-							}
-							time2++;
-						}
-						try {
-							Thread.sleep(3000);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						line = br.readLine();
-					}*/
 					String cmd = "adb shell am force-stop " + packageName;
 					System.out.println("退出app");
+					CMDUtils.runCMD(cmd, null);
+					try {
+						Thread.sleep(4000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+		        	
+		        	cmd = "adb shell am force-stop " + "com.android.settings";
 					CMDUtils.runCMD(cmd, null);
 					try {
 						Thread.sleep(4000);
